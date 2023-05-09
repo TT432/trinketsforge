@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author Emi
  */
 @Mixin(AbstractWidget.class)
-public abstract class ClickableWidgetMixin {
+public abstract class AbstractWidgetMixin {
 
 	@Shadow
 	protected boolean isHovered;

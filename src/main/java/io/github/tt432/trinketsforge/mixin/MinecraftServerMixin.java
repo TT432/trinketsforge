@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
  * @author DustW
  */
 @Mixin(MinecraftServer.class)
-public abstract class MixinMinecraftServer {
+public abstract class MinecraftServerMixin {
     @Shadow public abstract PlayerList getPlayerList();
 
     @Inject(method = "reloadResources", at = @At("TAIL"))

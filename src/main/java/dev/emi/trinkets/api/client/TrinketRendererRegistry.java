@@ -1,9 +1,10 @@
 package dev.emi.trinkets.api.client;
 
+import net.minecraft.world.item.Item;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import net.minecraft.world.item.Item;
 
 public class TrinketRendererRegistry {
 

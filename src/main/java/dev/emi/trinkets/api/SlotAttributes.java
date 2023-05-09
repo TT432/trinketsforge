@@ -1,11 +1,12 @@
 package dev.emi.trinkets.api;
 
-import java.util.Map;
-import java.util.UUID;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class SlotAttributes {
 	private static Map<String, UUID> CACHED_UUIDS= Maps.newHashMap();

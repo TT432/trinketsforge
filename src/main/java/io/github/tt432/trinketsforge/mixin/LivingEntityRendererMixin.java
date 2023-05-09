@@ -1,8 +1,6 @@
-package dev.emi.trinkets.mixin;
+package io.github.tt432.trinketsforge.mixin;
 
 import dev.emi.trinkets.TrinketFeatureRenderer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -19,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author C4
  * @author powerboat9
  */
-@Environment(EnvType.CLIENT)
+// @Environment(EnvType.CLIENT)
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin {
-    @Invoker("addFeature")
+    @Invoker("addLayer")
     public abstract boolean invokeAddFeature(RenderLayer feature);
 
 	@Inject(at = @At("RETURN"), method = "<init>")

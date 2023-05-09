@@ -5,8 +5,19 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "trinketsforge.refmap.json",
   "mixins": [
+    "ExperienceOrbMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "MinecraftServerMixin",
+    "InventoryMenuMixin",
+    "ServerGamePacketListenerImplMixin"
   ],
   "client": [
+    "AbstractWidgetMixin",
+    "CreativeModeInventoryScreenMixin",
+    "AbstractContainerScreenMixin",
+    "InventoryScreenMixin",
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,29 +1,10 @@
-package dev.emi.trinkets.mixin;
+package io.github.tt432.trinketsforge.mixin;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import dev.emi.trinkets.TrinketSlot;
-import dev.emi.trinkets.api.SlotAttributes;
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.SlotType;
-import dev.emi.trinkets.api.Trinket;
-import dev.emi.trinkets.api.TrinketInventory;
-import dev.emi.trinkets.api.TrinketsApi;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import dev.emi.trinkets.api.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -32,6 +13,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Adds a tooltip for trinkets describing slots and attributes
@@ -40,9 +31,8 @@ import net.minecraft.world.item.TooltipFlag;
  */
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
-	
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isSectionVisible(ILnet/minecraft/item/ItemStack$TooltipSection;)Z",
-		ordinal = 4, shift = Shift.BEFORE), method = "getTooltip", locals = LocalCapture.CAPTURE_FAILHARD)
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shouldShowInTooltip(ILnet/minecraft/world/item/ItemStack$TooltipPart;)Z",
+		ordinal = 4, shift = Shift.BEFORE), method = "getTooltipLines", locals = LocalCapture.CAPTURE_FAILHARD)
 	private void getTooltip(Player player, TooltipFlag context, CallbackInfoReturnable<List<Component>> info, List<Component> list) {
 		TrinketsApi.getTrinketComponent(player).ifPresent(comp -> {
 			ItemStack self = (ItemStack) (Object) this;
@@ -53,9 +43,9 @@ public abstract class ItemStackMixin {
 			boolean allModifiersSame = true;
 			int slotCount = 0;
 
-			for (Map.Entry<String, Map<String, TrinketInventory>> group : comp.getInventory().entrySet()) {
+			for (Entry<String, Map<String, TrinketInventory>> group : comp.getInventory().entrySet()) {
 				outer:
-				for (Map.Entry<String, TrinketInventory> inventory : group.getValue().entrySet()) {
+				for (Entry<String, TrinketInventory> inventory : group.getValue().entrySet()) {
 					TrinketInventory trinketInventory = inventory.getValue();
 					SlotType slotType = trinketInventory.getSlotType();
 					slotCount++;
@@ -145,7 +135,7 @@ public abstract class ItemStackMixin {
 	@Unique
 	private void addAttributes(List<Component> list, Multimap<Attribute, AttributeModifier> map) {
 		if (!map.isEmpty()) {
-			for (Map.Entry<Attribute, AttributeModifier> entry : map.entries()) {
+			for (Entry<Attribute, AttributeModifier> entry : map.entries()) {
 				Attribute attribute = entry.getKey();
 				AttributeModifier modifier = entry.getValue();
 				double g = modifier.getAmount();

@@ -24,13 +24,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author Emi
  */
 @Mixin(AbstractContainerScreen.class)
-public abstract class HandledScreenMixin extends Screen {
+public abstract class AbstractContainerScreenMixin extends Screen {
 	@Unique
 	private static final ResourceLocation MORE_SLOTS = new ResourceLocation("trinkets", "textures/gui/more_slots.png");
 	@Unique
 	private static final ResourceLocation BLANK_BACK = new ResourceLocation("trinkets", "textures/gui/blank_back.png");
 
-	private HandledScreenMixin() {
+	private AbstractContainerScreenMixin() {
 		super(null);
 	}
 

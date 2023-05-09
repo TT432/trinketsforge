@@ -1,8 +1,6 @@
 package dev.emi.trinkets.api;
 
 import dev.emi.trinkets.TrinketSlot;
-import java.util.Map;
-import java.util.Optional;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,7 +16,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
  */
 public class TrinketItem extends Item implements Trinket {
 	
-	public TrinketItem(Item.Properties settings) {
+	public TrinketItem(Properties settings) {
 		super(settings);
 		TrinketsApi.registerTrinket(this, this);
 	}

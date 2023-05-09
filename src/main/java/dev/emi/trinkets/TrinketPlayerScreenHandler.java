@@ -1,11 +1,11 @@
 package dev.emi.trinkets;
 
-import java.util.List;
-
 import dev.emi.trinkets.api.SlotGroup;
 import dev.emi.trinkets.api.SlotType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Interface for putting methods onto the player's screen handler

@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * @author Emi
  */
 @Mixin(ExperienceOrb.class)
-public class ExperienceOrbEntityMixin {
+public class ExperienceOrbMixin {
 	@Unique
 	private Player mendingPlayer;
 	

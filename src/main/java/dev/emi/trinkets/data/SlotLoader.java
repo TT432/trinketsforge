@@ -1,28 +1,12 @@
 package dev.emi.trinkets.data;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-
+import com.google.gson.*;
 import dev.emi.trinkets.TrinketsMain;
 import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.TrinketEnums.DropRule;
 import dev.emi.trinkets.data.SlotLoader.GroupData;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -30,11 +14,13 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-public class SlotLoader extends SimplePreparableReloadListener<Map<String, GroupData>> implements IdentifiableResourceReloadListener {
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.stream.Collectors;
 
+public class SlotLoader extends SimplePreparableReloadListener<Map<String, GroupData>> {
 	public static final SlotLoader INSTANCE = new SlotLoader();
-
-	static final ResourceLocation ID = new ResourceLocation(TrinketsMain.MOD_ID, "slots");
 
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 	private static final int FILE_SUFFIX_LENGTH = ".json".length();
@@ -91,11 +77,6 @@ public class SlotLoader extends SimplePreparableReloadListener<Map<String, Group
 
 	public Map<String, GroupData> getSlots() {
 		return ImmutableMap.copyOf(this.slots);
-	}
-
-	@Override
-	public ResourceLocation getFabricId() {
-		return ID;
 	}
 
 	static class GroupData {

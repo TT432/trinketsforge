@@ -44,6 +44,13 @@ displayName="trinketsforge" #mandatory
 description='''
 
 '''
+
+[custom]
+cardinal-components=["trinkets:trinkets"]
+
+[entrypoints]
+cardinal-components-entity=["dev.emi.trinkets.TrinketsMain"]
+
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.trinketsforge]] #optional
    # the modid of the dependency

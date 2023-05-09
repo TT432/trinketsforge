@@ -1,7 +1,6 @@
 package dev.emi.trinkets.api;
 
 import dev.emi.trinkets.api.TrinketEnums.DropRule;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,6 +8,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -26,7 +26,7 @@ public class SlotType {
 	private final DropRule dropRule;
 
 	public SlotType(String group, String name, int order, int amount, ResourceLocation icon, Set<ResourceLocation> quickMovePredicates,
-			Set<ResourceLocation> validatorPredicates, Set<ResourceLocation> tooltipPredicates, DropRule dropRule) {
+					Set<ResourceLocation> validatorPredicates, Set<ResourceLocation> tooltipPredicates, DropRule dropRule) {
 		this.group = group;
 		this.name = name;
 		this.order = order;
@@ -116,19 +116,19 @@ public class SlotType {
 		int order = slotData.getInt("Order");
 		int amount = slotData.getInt("Amount");
 		ResourceLocation icon = new ResourceLocation(slotData.getString("Icon"));
-		ListTag quickMoveList = slotData.getList("QuickMovePredicates", NbtType.STRING);
+		ListTag quickMoveList = slotData.getList("QuickMovePredicates", Tag.TAG_STRING);
 		Set<ResourceLocation> quickMovePredicates = new HashSet<>();
 
 		for (Tag tag : quickMoveList) {
 			quickMovePredicates.add(new ResourceLocation(tag.getAsString()));
 		}
-		ListTag validatorList = slotData.getList("ValidatorPredicates", NbtType.STRING);
+		ListTag validatorList = slotData.getList("ValidatorPredicates", Tag.TAG_STRING);
 		Set<ResourceLocation> validatorPredicates = new HashSet<>();
 
 		for (Tag tag : validatorList) {
 			validatorPredicates.add(new ResourceLocation(tag.getAsString()));
 		}
-		ListTag tooltipList = slotData.getList("TooltipPredicates", NbtType.STRING);
+		ListTag tooltipList = slotData.getList("TooltipPredicates", Tag.TAG_STRING);
 		Set<ResourceLocation> tooltipPredicates = new HashSet<>();
 
 		for (Tag tag : tooltipList) {
@@ -137,8 +137,8 @@ public class SlotType {
 		String dropRuleName = slotData.getString("DropRule");
 		DropRule dropRule = DropRule.DEFAULT;
 
-		if (TrinketEnums.DropRule.has(dropRuleName)) {
-			dropRule = TrinketEnums.DropRule.valueOf(dropRuleName);
+		if (DropRule.has(dropRuleName)) {
+			dropRule = DropRule.valueOf(dropRuleName);
 		}
 		return new SlotType(group, name, order, amount, icon, quickMovePredicates, validatorPredicates, tooltipPredicates, dropRule);
 	}

@@ -1,4 +1,4 @@
-package dev.emi.trinkets.mixin;
+package io.github.tt432.trinketsforge.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,7 +33,7 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
 		TrinketScreenManager.init(this);
 	}
 
-	@Inject(at = @At("TAIL"), method = "handledScreenTick")
+	@Inject(at = @At("TAIL"), method = "containerTick")
 	private void tick(CallbackInfo info) {
 		TrinketScreenManager.tick();
 	}
@@ -43,18 +43,18 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
 		TrinketScreenManager.update(mouseX, mouseY);
 	}
 
-	@Inject(at = @At("RETURN"), method = "drawBackground")
-	private void drawBackground(PoseStack matrices, float delta, int mouseX, int mouseY, CallbackInfo info) {
+	@Inject(at = @At("RETURN"), method = "renderBg")
+	private void renderBg(PoseStack matrices, float delta, int mouseX, int mouseY, CallbackInfo info) {
 		TrinketScreenManager.drawExtraGroups(this, matrices);
 	}
 
-	@Inject(at = @At("TAIL"), method = "drawForeground")
-	private void drawForeground(PoseStack matrices, int mouseX, int mouseY, CallbackInfo info) {
+	@Inject(at = @At("TAIL"), method = "renderLabels")
+	private void renderLabels(PoseStack matrices, int mouseX, int mouseY, CallbackInfo info) {
 		TrinketScreenManager.drawActiveGroup(this, matrices);
 	}
 	
-	@Inject(at = @At("HEAD"), method = "isClickOutsideBounds", cancellable = true)
-	private void isClickOutsideBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> info) {
+	@Inject(at = @At("HEAD"), method = "hasClickedOutside", cancellable = true)
+	private void hasClickedOutside(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> info) {
 		if (TrinketScreenManager.isClickInsideTrinketBounds(mouseX, mouseY)) {
 			info.setReturnValue(false);
 		}

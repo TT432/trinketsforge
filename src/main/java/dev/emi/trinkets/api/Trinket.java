@@ -1,24 +1,24 @@
 package dev.emi.trinkets.api;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-
-import dev.emi.trinkets.mixin.accessor.LivingEntityAccessor;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface Trinket {
 
@@ -86,7 +86,7 @@ public interface Trinket {
 	 * @param uuid The UUID to use for creating attributes
 	 */
 	default Multimap<Attribute, AttributeModifier> getModifiers(ItemStack stack,
-			SlotReference slot, LivingEntity entity, UUID uuid) {
+																SlotReference slot, LivingEntity entity, UUID uuid) {
 		Multimap<Attribute, AttributeModifier> map = Multimaps.newMultimap(Maps.newLinkedHashMap(), ArrayList::new);
 
 		if (stack.hasTag() && stack.getTag().contains("TrinketAttributeModifiers", 9)) {
@@ -95,7 +95,7 @@ public interface Trinket {
 			for (int i = 0; i < list.size(); i++) {
 				CompoundTag tag = list.getCompound(i);
 
-				if (!tag.contains("Slot", NbtType.STRING) || tag.getString("Slot")
+				if (!tag.contains("Slot", Tag.TAG_STRING) || tag.getString("Slot")
 						.equals(slot.inventory().getSlotType().getGroup() + "/" + slot.inventory().getSlotType().getName())) {
 					Optional<Attribute> optional = BuiltInRegistries.ATTRIBUTE
 							.getOptional(ResourceLocation.tryParse(tag.getString("AttributeName")));
@@ -117,17 +117,17 @@ public interface Trinket {
 
 	/**
 	 * Called by Trinkets when a trinket is broken on the client if {@link TrinketsApi#onTrinketBroken}
-	 * is called by the consumer in {@link ItemStack#damage(int, LivingEntity, Consumer)} server side
+	 * is called by the consumer in {@link ItemStack#hurt(int, RandomSource, ServerPlayer)} server side
 	 * <p>
 	 * The default implementation works the same as breaking vanilla equipment, a sound is played and
 	 * particles are spawned based on the item
-	 * 
+	 *
 	 * @param stack The stack being broken
 	 * @param slot The slot the stack is being broken in
 	 * @param entity The entity that is breaking the stack
 	 */
 	default void onBreak(ItemStack stack, SlotReference slot, LivingEntity entity) {
-		((LivingEntityAccessor) entity).invokePlayEquipmentBreakEffects(stack);
+		entity.breakItem(stack);
 	}
 
 	default TrinketEnums.DropRule getDropRule(ItemStack stack, SlotReference slot, LivingEntity entity) {

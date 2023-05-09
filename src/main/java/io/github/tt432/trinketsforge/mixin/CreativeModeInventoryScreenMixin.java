@@ -33,13 +33,13 @@ import net.minecraft.world.item.ItemStack;
  * @author Emi
  */
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class CreativeInventoryScreenMixin extends EffectRenderingInventoryScreen<ItemPickerMenu> implements TrinketScreen {
+public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingInventoryScreen<ItemPickerMenu> implements TrinketScreen {
 	@Shadow
 	private static CreativeModeTab selectedTab;
 
 	@Shadow protected abstract void selectTab(CreativeModeTab p_98561_);
 
-	private CreativeInventoryScreenMixin() {
+	private CreativeModeInventoryScreenMixin() {
 		super(null, null, null);
 	}
 

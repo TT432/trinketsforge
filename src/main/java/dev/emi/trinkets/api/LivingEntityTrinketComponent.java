@@ -1,25 +1,13 @@
 package dev.emi.trinkets.api;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Predicate;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import dev.emi.trinkets.TrinketPlayerScreenHandler;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Tuple;
@@ -29,8 +17,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class LivingEntityTrinketComponent implements TrinketComponent, AutoSyncedComponent {
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
+public class LivingEntityTrinketComponent implements TrinketComponent, AutoSyncedComponent {
 	public Map<String, Map<String, TrinketInventory>> inventory = new HashMap<>();
 	public Set<TrinketInventory> trackingUpdates = new HashSet<>();
 	public Map<String, SlotGroup> groups = new HashMap<>();
@@ -197,7 +188,7 @@ public class LivingEntityTrinketComponent implements TrinketComponent, AutoSynce
 				if (groupSlots != null) {
 					for (String slotKey : groupTag.getAllKeys()) {
 						CompoundTag slotTag = groupTag.getCompound(slotKey);
-						ListTag list = slotTag.getList("Items", NbtType.COMPOUND);
+						ListTag list = slotTag.getList("Items", Tag.TAG_COMPOUND);
 						TrinketInventory inv = groupSlots.get(slotKey);
 
 						if (inv != null) {
@@ -217,7 +208,7 @@ public class LivingEntityTrinketComponent implements TrinketComponent, AutoSynce
 				} else {
 					for (String slotKey : groupTag.getAllKeys()) {
 						CompoundTag slotTag = groupTag.getCompound(slotKey);
-						ListTag list = slotTag.getList("Items", NbtType.COMPOUND);
+						ListTag list = slotTag.getList("Items", Tag.TAG_COMPOUND);
 						for (int i = 0; i < list.size(); i++) {
 							CompoundTag c = list.getCompound(i);
 							dropped.add(ItemStack.of(c));
@@ -273,7 +264,7 @@ public class LivingEntityTrinketComponent implements TrinketComponent, AutoSynce
 
 						for (String slotKey : groupTag.getAllKeys()) {
 							CompoundTag slotTag = groupTag.getCompound(slotKey);
-							ListTag list = slotTag.getList("Items", NbtType.COMPOUND);
+							ListTag list = slotTag.getList("Items", Tag.TAG_COMPOUND);
 							TrinketInventory inv = groupSlots.get(slotKey);
 
 							if (inv != null) {
