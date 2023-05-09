@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'io.github.tt432'
-version = '1.19.4-0.1.0'
+version = '1.19.4-3.6.0.b1'
 
 java {
     archivesBaseName = 'trinketsforge'
